@@ -1,2 +1,9 @@
 .DS_STORE
 .idea
+bin
+include
+lib
+.Python
+tests/
+.envrc
+__pycache__
