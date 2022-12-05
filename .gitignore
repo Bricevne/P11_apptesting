@@ -7,3 +7,4 @@ lib
 tests/
 .envrc
 __pycache__
+pyvenv.cfg
