@@ -1,9 +1,17 @@
 import json
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for, session
+
+CLUBS = 'clubs.json'
+CLUBS_TESTS = 'features/clubs_tests.json'
 
 
-def load_clubs():
-    with open('clubs.json') as c:
+# def load_clubs():
+#     with open('clubs.json') as c:
+#         list_of_clubs = json.load(c)['clubs']
+#         return list_of_clubs
+
+def load_clubs(file: str):
+    with open(file) as c:
         list_of_clubs = json.load(c)['clubs']
         return list_of_clubs
 
@@ -19,16 +27,31 @@ def create_app(config):
     app.config.from_pyfile("config.py")
     app.config["TESTING"] = config.get("TESTING")
 
-    competitions = load_competitions()
-    clubs = load_clubs()
+    if app.config["TESTING"]:
+        competitions = load_competitions()
+        clubs = load_clubs(CLUBS_TESTS)
+    else:
+        competitions = load_competitions()
+        clubs = load_clubs(CLUBS)
 
     @app.route('/')
     def index():
         return render_template('index.html')
 
-    @app.route('/show-summary', methods=['POST'])
+    @app.route('/show-summary', methods=['GET', 'POST'])
     def show_summary():
-        club = [club for club in clubs if club['email'] == request.form['email']][0]
+
+        # Fix bug 1: No management of wrong email address.
+        email = request.form['email']
+        try:
+            club = [club for club in clubs if club['email'] == email][0]
+        except IndexError:
+            if not email:
+                flash("You have to enter an email address. Please try again.")
+            else:
+                flash(f"The email address {email} does not exist. Please try again.")
+            return redirect(url_for('index'))
+
         return render_template('welcome.html', club=club, competitions=competitions)
 
     @app.route('/book/<competition>/<club>')
