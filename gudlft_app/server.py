@@ -3,12 +3,9 @@ from flask import Flask, render_template, request, redirect, flash, url_for, ses
 
 CLUBS = 'clubs.json'
 CLUBS_TESTS = 'features/clubs_tests.json'
+COMPETITIONS = 'competitions.json'
+COMPETITIONS_TESTS = 'features/competitions_tests.json'
 
-
-# def load_clubs():
-#     with open('clubs.json') as c:
-#         list_of_clubs = json.load(c)['clubs']
-#         return list_of_clubs
 
 def load_clubs(file: str):
     with open(file) as c:
@@ -16,8 +13,8 @@ def load_clubs(file: str):
         return list_of_clubs
 
 
-def load_competitions():
-    with open('competitions.json') as comps:
+def load_competitions(file: str):
+    with open(file) as comps:
         list_of_competitions = json.load(comps)['competitions']
         return list_of_competitions
 
@@ -28,10 +25,10 @@ def create_app(config):
     app.config["TESTING"] = config.get("TESTING")
 
     if app.config["TESTING"]:
-        competitions = load_competitions()
+        competitions = load_competitions(COMPETITIONS_TESTS)
         clubs = load_clubs(CLUBS_TESTS)
     else:
-        competitions = load_competitions()
+        competitions = load_competitions(COMPETITIONS)
         clubs = load_clubs(CLUBS)
 
     @app.route('/')
