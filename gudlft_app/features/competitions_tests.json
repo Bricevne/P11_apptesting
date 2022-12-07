@@ -1,14 +1,19 @@
 {
     "competitions": [
         {
-            "name": "Spring Festival",
-            "date": "2020-03-27 10:00:00",
-            "number_of_places": "25"
+            "name": "Competition test 1",
+            "date": "2020-05-27 12:00:00",
+            "number_of_places": "15"
         },
         {
-            "name": "Fall Classic",
-            "date": "2020-10-22 13:30:00",
-            "number_of_places": "13"
+            "name": "Competition test 2",
+            "date": "2023-05-22 13:30:00",
+            "number_of_places": "19"
+        },
+        {
+            "name": "Competition test 3",
+            "date": "2021-03-25 10:00:00",
+            "number_of_places": "10"
         }
     ]
 }
