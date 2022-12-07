@@ -41,18 +41,27 @@ def create_app(config):
     @app.route('/show-summary', methods=['GET', 'POST'])
     def show_summary():
 
-        # Fix bug 1: No management of wrong email address.
-        email = request.form['email']
-        try:
-            club = [club for club in clubs if club['email'] == email][0]
-        except IndexError:
-            if not email:
-                flash("You have to enter an email address. Please try again.")
-            else:
-                flash(f"The email address {email} does not exist. Please try again.")
+        if request.method == 'GET' and 'email' not in session:
             return redirect(url_for('index'))
 
-        return render_template('welcome.html', club=club, competitions=competitions)
+        elif request.method == 'GET' and 'email' in session:
+            club = [club for club in clubs if club['email'] == session['email']][0]
+            return render_template('welcome.html', club=club, competitions=competitions)
+
+        # Fix bug 1: No management of wrong email address.
+        elif request.method == 'POST':
+            email = request.form['email']
+            try:
+                club = [club for club in clubs if club['email'] == email][0]
+            except IndexError:
+                if not email:
+                    flash("You have to enter an email address. Please try again.")
+                else:
+                    flash(f"The email address {email} does not exist. Please try again.")
+                return redirect(url_for('index'))
+
+            session['email'] = email
+            return render_template('welcome.html', club=club, competitions=competitions)
 
     @app.route('/book/<competition>/<club>')
     def book(competition, club):
@@ -77,6 +86,7 @@ def create_app(config):
 
     @app.route('/logout')
     def logout():
+        session.clear()
         return redirect(url_for('index'))
 
     return app
