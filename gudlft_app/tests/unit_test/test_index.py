@@ -67,6 +67,14 @@ def test_index_no_email_address(client):
     assert "You have to enter an email address. Please try again." in html
 
 
+def test_index_no_access_to_show_summary(app):
+    """Tests if show_summary with a 'GET' method without being logged in redirects to index."""
+    with app.test_client() as client:
+        response = client.get('/show-summary', follow_redirects=True)
+        assert request.path == url_for('index')
+        assert response.status_code == 200
+
+
 def test_logout(app):
     """Tests if the '/logout' url redirects to the index and clear the email in the session."""
 
