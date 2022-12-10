@@ -1,4 +1,3 @@
-from flask import url_for, request
 from gudlft_app.tests.utilities import assert_template
 
 
@@ -23,43 +22,3 @@ def test_index_template_is_valid(app):
         "Enter"
     )
 
-
-def test_index_wrong_email_address(client):
-    """Tests if the index template displays the corresponding message when a wrong email address is entered."""
-    email = "wrong.email@gmail.com"
-    response = client.post('/show-summary', data={'email': email}, follow_redirects=True)
-    html = response.data.decode()
-    assert "The email address wrong.email@gmail.com does not exist. Please try again." in html
-
-
-def test_index_no_email_address(client):
-    """Tests if the index template displays the corresponding message when no email address is entered."""
-    email = ""
-    response = client.post('/show-summary', data={'email': email}, follow_redirects=True)
-    html = response.data.decode()
-    assert "You have to enter an email address. Please try again." in html
-
-
-def test_index_no_access_to_show_summary(app):
-    """Tests if show_summary with a 'GET' method without being logged in redirects to index."""
-    with app.test_client() as client:
-        response = client.get('/show-summary', follow_redirects=True)
-        assert request.path == url_for('index')
-        assert response.status_code == 200
-
-
-def test_logout(app):
-    """Tests if the '/logout' url redirects to the index and clear the email in the session."""
-
-    email = "test1@gmail.com"
-    with app.test_client() as client:
-        with client.session_transaction() as session:
-            session['email'] = email
-            assert 'email' in session
-
-        response = client.get("/logout", follow_redirects=True)
-        assert response.status_code == 200
-        # Check that the second request was to the index page.
-        assert request.path == url_for('index')
-        with client.session_transaction() as session:
-            assert 'email' not in session
