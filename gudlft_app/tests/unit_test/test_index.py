@@ -1,35 +1,5 @@
-from flask import template_rendered, url_for, request, json
-from contextlib import contextmanager
-
-
-@contextmanager
-def captured_templates(app):
-    """Context manager recording a specific template to test."""
-
-    recorded = []
-
-    def record(sender, template, context, **extra):
-        recorded.append((template, context))
-
-    template_rendered.connect(record, app)
-    try:
-        yield recorded
-    finally:
-        template_rendered.disconnect(record, app)
-
-
-def validate_template(app, url, template_name, *args):
-    """Function validating a template."""
-    with app.test_client() as client:
-        with captured_templates(app) as templates:
-            response = client.get(url)
-            template, context = templates[0]
-            assert template.name == template_name
-            assert len(templates) == 1
-            html = response.data.decode()
-            # All html texts
-            for data in args:
-                assert data in html
+from flask import url_for, request
+from gudlft_app.tests.utilities import assert_template
 
 
 def test_index_should_status_code_ok(client):
@@ -40,10 +10,13 @@ def test_index_should_status_code_ok(client):
 
 def test_index_template_is_valid(app):
     """Tests if the template accessed by the '/' url is the index.html template."""
-    validate_template(
+    assert_template(
         app,
-        '/',
-        'index.html',
+        "GET",
+        False,
+        "/",
+        "index.html",
+        200,
         "Welcome to the GUDLFT Registration Portal!",
         "Please enter your secretary email to continue:",
         "Email:",

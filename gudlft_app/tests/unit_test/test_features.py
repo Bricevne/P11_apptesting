@@ -1,26 +1,10 @@
 from gudlft_app.server import load_clubs, load_competitions
 
 
-def test_load_clubs():
+def test_load_clubs(first_club_test, second_club_test, third_club_test):
     """Tests load_clubs function."""
     clubs = load_clubs('features/clubs_tests.json')
-    expected_clubs = [
-        {
-            "name": "Test 1",
-            "email": "test1@gmail.com",
-            "points": "13"
-        },
-        {
-            "name": "Test 2",
-            "email": "test2@gmail.com",
-            "points": "4"
-        },
-        {
-            "name": "Test 3",
-            "email": "test3@gmail.com",
-            "points": "12"
-        }
-    ]
+    expected_clubs = [first_club_test, second_club_test, third_club_test]
     assert clubs == expected_clubs
 
 
@@ -54,26 +38,10 @@ def test_wrong_club_list():
     assert clubs != expected_clubs
 
 
-def test_load_competitions():
+def test_load_competitions(first_competition_test, second_competition_test, third_competition_test):
     """Tests load_competitions function."""
     competitions = load_competitions('features/competitions_tests.json')
-    expected_competitions = [
-        {
-            "name": "Competition test 1",
-            "date": "2020-05-27 12:00:00",
-            "number_of_places": "15"
-        },
-        {
-            "name": "Competition test 2",
-            "date": "2023-05-22 13:30:00",
-            "number_of_places": "19"
-        },
-        {
-            "name": "Competition test 3",
-            "date": "2021-03-25 10:00:00",
-            "number_of_places": "10"
-        }
-    ]
+    expected_competitions = [first_competition_test, second_competition_test, third_competition_test]
     assert competitions == expected_competitions
 
 
