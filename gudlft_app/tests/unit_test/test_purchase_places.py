@@ -1,5 +1,4 @@
 from gudlft_app.tests.utilities import assert_template
-from flask import url_for, request
 
 
 def test_places_must_not_be_empty(app, first_club_test, second_competition_test, fourth_competition_test):
