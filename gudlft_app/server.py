@@ -1,11 +1,18 @@
 import json
 from flask import Flask, render_template, request, redirect, flash, url_for, session
+from datetime import date
 
 CLUBS = 'clubs.json'
 CLUBS_TESTS = 'features/clubs_tests.json'
 COMPETITIONS = 'competitions.json'
 COMPETITIONS_TESTS = 'features/competitions_tests.json'
 MAX_BOOKING_PLACES = 12
+
+
+def get_current_formatted_date():
+    current_date = date.today()
+    return current_date.strftime("%Y-%m-%d %H:%M:%S")
+
 
 def load_clubs(file: str):
     with open(file) as c:
@@ -14,9 +21,14 @@ def load_clubs(file: str):
 
 
 def load_competitions(file: str):
+    # ISSUE 5: Can book in past competitions
+    current_date = get_current_formatted_date()
     with open(file) as comps:
         list_of_competitions = json.load(comps)['competitions']
-        return list_of_competitions
+        return sorted(
+            [competition for competition in list_of_competitions if current_date < competition['date']],
+            key=lambda competition: competition["date"]
+        )
 
 
 def create_app(config):
@@ -91,6 +103,7 @@ def create_app(config):
                 flash("You cannot book more places than you have points available for your club.")
             elif places_required > int(competition['number_of_places']):
                 flash("There are not enough places for this competition.")
+            # ISSUE 4: Point updates are not reflected
             else:
                 competition['number_of_places'] = int(competition['number_of_places']) - places_required
                 club['points'] = int(club['points']) - places_required
