@@ -74,3 +74,12 @@ def third_competition_test():
         "date": "2021-03-25 10:00:00",
         "number_of_places": "10"
     }
+
+
+@pytest.fixture
+def fourth_competition_test():
+    return {
+        "name": "Competition test 4",
+        "date": "2023-01-08 10:00:00",
+        "number_of_places": "3"
+    }
