@@ -74,13 +74,23 @@ def create_app(config):
 
     @app.route('/book/<competition>/<club>')
     def book(competition, club):
-        found_club = [c for c in clubs if c['name'] == club][0]
-        found_competition = [c for c in competitions if c['name'] == competition][0]
-        if found_club and found_competition:
-            return render_template('booking.html', club=found_club, competition=found_competition)
-        else:
-            flash("Something went wrong-please try again")
+        if "email" not in session:
+            return redirect(url_for('index'))
+
+        club_in_session = [c for c in clubs if c['email'] == session['email']][0]
+        if club != club_in_session['name']:
+            flash("You cannot access booking for another club - please try again.")
+            return redirect('/show-summary')
+
+        try:
+            found_club = [c for c in clubs if c['name'] == club][0]
+            found_competition = [c for c in competitions if c['name'] == competition][0]
+        except IndexError:
+            flash("Something went wrong - please try again.")
+            club = [c for c in clubs if c['email'] == session['email']][0]
             return render_template('welcome.html', club=club, competitions=competitions)
+        else:
+            return render_template('booking.html', club=found_club, competition=found_competition)
 
     @app.route('/purchase-places', methods=['POST'])
     def purchase_places():
