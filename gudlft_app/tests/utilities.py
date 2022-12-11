@@ -27,9 +27,9 @@ def assert_template(app, method, logged_in, url, template_name, status_code, *ar
                     session['email'] = email
                     assert 'email' in session
             if method == "POST":
-                response = client.post(url, data=data)
+                response = client.post(url, data=data, follow_redirects=True)
             else:
-                response = client.get(url)
+                response = client.get(url, follow_redirects=True)
             template, context = templates[0]
             assert template.name == template_name
             assert len(templates) == 1
