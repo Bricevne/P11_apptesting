@@ -89,8 +89,11 @@ def create_app(config):
             # ISSUE 2: Can't book more than points available by the club
             elif places_required > int(club['points']):
                 flash("You cannot book more places than you have points available for your club.")
+            elif places_required > int(competition['number_of_places']):
+                flash("There are not enough places for this competition.")
             else:
                 competition['number_of_places'] = int(competition['number_of_places']) - places_required
+                club['points'] = int(club['points']) - places_required
                 flash('Great - booking complete!')
         return render_template('welcome.html', club=club, competitions=competitions)
 
