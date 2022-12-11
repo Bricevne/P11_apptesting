@@ -5,7 +5,7 @@ CLUBS = 'clubs.json'
 CLUBS_TESTS = 'features/clubs_tests.json'
 COMPETITIONS = 'competitions.json'
 COMPETITIONS_TESTS = 'features/competitions_tests.json'
-
+MAX_BOOKING_PLACES = 12
 
 def load_clubs(file: str):
     with open(file) as c:
@@ -82,11 +82,16 @@ def create_app(config):
         except AssertionError:
             flash('You have to pick a positive number of places.')
         else:
-            if places_required <= int(club['points']):
+            # ISSUE 3: Can't book more than 12 places
+            if places_required > 12:
+                flash("You cannot book more than 12 places per competition.")
+
+            # ISSUE 2: Can't book more than points available by the club
+            elif places_required > int(club['points']):
+                flash("You cannot book more places than you have points available for your club.")
+            else:
                 competition['number_of_places'] = int(competition['number_of_places']) - places_required
                 flash('Great - booking complete!')
-            else:
-                flash("You cannot book more places than you have points available for your club.")
         return render_template('welcome.html', club=club, competitions=competitions)
 
     # TODO: Add route for points display
