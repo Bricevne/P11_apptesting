@@ -38,17 +38,17 @@ def test_wrong_club_list():
     assert clubs != expected_clubs
 
 
-def test_load_competitions(first_competition_test, second_competition_test, third_competition_test):
-    """Tests load_competitions function."""
+def test_load_competitions(second_competition_test, fourth_competition_test):
+    """Tests load_competitions function. Only future competitions, ordered by date."""
     competitions = load_competitions('features/competitions_tests.json')
-    expected_competitions = [first_competition_test, second_competition_test, third_competition_test]
+    expected_competitions = [fourth_competition_test, second_competition_test]
     assert competitions == expected_competitions
 
 
 def test_length_competitions_list():
     """Tests length of competition list."""
     competitions = load_competitions('features/competitions_tests.json')
-    assert len(competitions) == 3
+    assert len(competitions) == 2
     assert type(competitions) is list
 
 
@@ -57,19 +57,24 @@ def test_wrong_competition_list():
     competitions = load_competitions('features/competitions_tests.json')
     expected_competitions = [
         {
-            "name": "Simply Lift",
-            "email": "john@simplylift.co",
-            "points": "13"
+            "name": "Competition test 1",
+            "date": "2020-05-27 12:00:00",
+            "number_of_places": "15"
         },
         {
-            "name": "Iron Temple",
-            "email": "admin@irontemple.com",
-            "points": "4"
+            "name": "Competition test 2",
+            "date": "2023-05-22 13:30:00",
+            "number_of_places": "19"
         },
         {
-            "name": "She Lifts",
-            "email": "kate@shelifts.co.uk",
-            "points": "12"
+            "name": "Competition test 3",
+            "date": "2021-03-25 10:00:00",
+            "number_of_places": "10"
+        },
+        {
+            "name": "Competition test 4",
+            "date": "2023-01-08 10:00:00",
+            "number_of_places": "3"
         }
     ]
     assert competitions != expected_competitions
