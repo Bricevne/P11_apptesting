@@ -64,6 +64,28 @@ def test_places_must_be_less_than_available_points(app, second_club_test, first_
     assert int(second_club_test['points']) == 4
 
 
+def test_booking_no_more_than_twelve_places(app, second_club_test, first_competition_test, second_competition_test, third_competition_test):
+    email = second_club_test['email']
+    places_required = 13
+    assert places_required > 12
+    points_before_booking = second_club_test['points']
+
+    assert_template(
+        app,
+        "POST",
+        True,
+        "/purchase-places",
+        "welcome.html",
+        200,
+        f"Points available: {points_before_booking}",
+        "You cannot book more than 12 places per competition.",
+        email=email,
+        data=dict(places=str(places_required), club=second_club_test['name'], competition=first_competition_test['name']),
+        club=second_club_test,
+        competitions=[first_competition_test, second_competition_test, third_competition_test]
+    )
+
+
 def test_booking_with_enough_points(app, second_club_test, first_competition_test, second_competition_test, third_competition_test):
     email = second_club_test['email']
     places_required = 2
