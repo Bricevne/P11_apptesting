@@ -55,6 +55,8 @@ def test_access_booking(app, first_club_test, second_competition_test, fourth_co
         url_for('book', competition=second_competition_test['name'], club=first_club_test['name']),
         "booking.html",
         200,
+        f"{second_competition_test['name']}",
+        f"Places available: {second_competition_test['number_of_places']}",
         email=email,
         club=first_club_test,
         competition=second_competition_test
