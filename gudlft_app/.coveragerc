@@ -1,0 +1,11 @@
+[run]
+branch = True
+omit =
+    */tests/*
+    *config.py*
+    *__init__.py*
+    *if __name__ == "__main__":*
+
+[report]
+exclude_lines =
+    if __name__ == .__main__.:
