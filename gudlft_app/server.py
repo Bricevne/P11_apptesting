@@ -58,7 +58,7 @@ def create_app(config):
             club = [club for club in clubs if club['email'] == session['email']][0]
             return render_template('welcome.html', club=club, competitions=competitions)
 
-        elif request.method == 'POST':
+        else:
             email = request.form['email']
             try:
                 club = [club for club in clubs if club['email'] == email][0]
