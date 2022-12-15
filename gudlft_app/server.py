@@ -49,7 +49,7 @@ def create_app(config):
 
     @app.route('/show-summary', methods=['GET', 'POST'])
     def show_summary():
-        # Fix bug 1: No management of wrong email address.
+        # ISSUE 1: No management of wrong email address.
 
         if request.method == 'GET' and 'email' not in session:
             return redirect(url_for('index'))
