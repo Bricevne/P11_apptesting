@@ -13,6 +13,6 @@ def test_logout(app):
         response = client.get("/logout", follow_redirects=True)
         assert response.status_code == 200
         # Check that the second request was to the index page.
-        assert request.path == url_for('index')
+        assert response.request.path == url_for('index')
         with client.session_transaction() as session:
             assert 'email' not in session
