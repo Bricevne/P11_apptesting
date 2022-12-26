@@ -27,7 +27,7 @@ a gudlft_app containing:
 
 ## Workflow of the project
 
-This project if organized in 12 branches of which 6 are dedicated to fixing bugs and improvement, and 1 to a new feature:
+This project is organized in 12 branches of which 6 are dedicated to fixing bugs and improvement, and 1 to a new feature:
 
 - 01_improvement/fix-naming-conventions-pocoo-styleguide
 - 02_improvement/refacto-template-language
@@ -55,9 +55,13 @@ git clone https://github.com/Bricevne/P11_apptesting.git
 
 Get into the root directory P11_apptesting/
 
-Set your virtual environment under [python 3.10](https://www.python.org/downloads/release/python-3100/)
+Go to the QA branch to get the final version of the project:
 
-<code>virtualenv .</code>
+```bash
+git checkout QA
+```
+
+Set your virtual environment under [python 3.10](https://www.python.org/downloads/release/python-3100/)
 
 ```bash
 virtualenv . # Create the virtual environment
@@ -73,15 +77,9 @@ Get into the gudlft_app directory and export the server.py as a FLASK_APP parame
 export FLASK_APP=server.py  
 ```
 
-Go to the QA branch to get the final version of the project:
-
-```bash
-git checkout QA
-```
-
 ## Launch the local server
 
-In the gudlft_app folder run the following code to access the api:
+In the gudlft_app folder run the following code to access the web application:
 
 ```bash
 flask run # Start the local server
@@ -111,7 +109,7 @@ pytest
 
 ### Coverage
 
-To obtain coverage of the tests, you can run:
+To obtain the coverage of the tests, you can run:
 
 ```bash
 pytest --cov=.
@@ -125,7 +123,8 @@ To obtain the full html report:
 
 ### Performance tests
 
-To access performance tests, get into the gudlft_app/tests/performance_tests/ folder and run the following command:
+
+To access performance tests, while the local server is run, get into the gudlft_app/tests/performance_tests/ folder with another terminal and run the following command:
 
 ```bash
 locust
