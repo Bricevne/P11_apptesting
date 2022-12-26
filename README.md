@@ -42,6 +42,9 @@ This project if organized in 12 branches of which 6 are dedicated to fixing bugs
 - develop : an intermediate branch between main and the rest of the branches, permitting to modify the main branch only after the whole project is finished
 - main : the principal branch
 
+For this project, the main branch is at its initial state. The develop branch has all modifications (bug fixes and new feature).
+The QA branch has all necessary updates for a clean code (Docstrings, requirements, etc.)
+
 ## Installation
 
 Clone [the repository](https://github.com/Bricevne/P11_apptesting.git) on your computer.
@@ -68,6 +71,12 @@ Get into the gudlft_app directory and export the server.py as a FLASK_APP parame
 
 ```bash
 export FLASK_APP=server.py  
+```
+
+Go to the QA branch to get the final version of the project:
+
+```bash
+git checkout QA
 ```
 
 ## Launch the local server
