@@ -29,7 +29,6 @@ def test_no_access_to_show_summary_without_login(app):
 def test_show_summary_get_method_with_session(
         app, first_club_test, second_competition_test, fourth_competition_test
 ):
-    # ADD pytest.fixture maybe for individual clubs and competitions.
     """Tests if the Welcome.html template is valid when a user is already logged in.
      '/show-summary' with 'GET' method."""
     email = first_club_test["email"]
@@ -49,7 +48,7 @@ def test_show_summary_get_method_with_session(
 def test_show_summary_post_method(
         app, first_club_test, second_competition_test, fourth_competition_test
 ):
-    """Tests if the Welcome.html template while not logged in.
+    """Tests if the welcome.html template works when logging in with a valid email.
      '/show-summary' with 'POST' method."""
 
     email = first_club_test["email"]

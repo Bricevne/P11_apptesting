@@ -1,4 +1,5 @@
 def test_display_new_points_after_booking(client, first_club_test, fourth_competition_test):
+    """Tests if the display board is modified after booking."""
     response = client.get("/display-board")
     assert f"{first_club_test['name']}" and "Points available: 13" in response.data.decode()
     assert "Points available: 10" not in response.data.decode()
@@ -13,7 +14,7 @@ def test_display_new_points_after_booking(client, first_club_test, fourth_compet
 
 
 def test_display_points_after_booking_more_points_than_available_competition(client, first_club_test, fourth_competition_test):
-    """More places asked than available in the competition."""
+    """Tests if the display board is indeed not modified after booking."""
     response = client.get("/display-board")
     assert f"{first_club_test['name']}" and "Points available: 13" in response.data.decode()
     assert "Points available: 9" not in response.data.decode()
@@ -28,7 +29,7 @@ def test_display_points_after_booking_more_points_than_available_competition(cli
 
 
 def test_display_points_after_booking_more_than_twelve_points(client, first_club_test, second_competition_test):
-    """More places asked than available in the competition."""
+    """Tests if the display board is indeed not modified after booking."""
     response = client.get("/display-board")
     assert f"{first_club_test['name']}" and "Points available: 13" in response.data.decode()
     assert "Points available: 0" not in response.data.decode()
@@ -43,7 +44,7 @@ def test_display_points_after_booking_more_than_twelve_points(client, first_club
 
 
 def test_display_points_after_booking_negative_points(client, first_club_test, second_competition_test):
-    """More places asked than available in the competition."""
+    """Tests if the display board is indeed not modified after booking."""
     response = client.get("/display-board")
     assert f"{first_club_test['name']}" and "Points available: 13" in response.data.decode()
     assert "Points available: 15" not in response.data.decode()

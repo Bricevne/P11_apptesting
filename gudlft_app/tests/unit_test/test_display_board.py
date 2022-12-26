@@ -2,6 +2,7 @@ from gudlft_app.tests.utilities import assert_template
 
 
 def test_display_board_not_logged_in(app, first_club_test, second_club_test, third_club_test):
+    """Tests if a user can access the board while being logged out."""
     assert_template(
         app,
         "GET",
@@ -19,6 +20,7 @@ def test_display_board_not_logged_in(app, first_club_test, second_club_test, thi
 
 
 def test_display_board_logged_in(app, first_club_test, second_club_test, third_club_test):
+    """Tests if a user can access the board while being logged in."""
     assert_template(
         app,
         "GET",

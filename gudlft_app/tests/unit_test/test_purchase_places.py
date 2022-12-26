@@ -2,6 +2,7 @@ from gudlft_app.tests.utilities import assert_template
 
 
 def test_places_must_not_be_empty(app, first_club_test, second_competition_test, fourth_competition_test):
+    """Tests if a user can book with an invalid number of places."""
     email = first_club_test['email']
     places_required = ""
     assert not places_required
@@ -22,6 +23,7 @@ def test_places_must_not_be_empty(app, first_club_test, second_competition_test,
 
 
 def test_places_must_be_positive(app, first_club_test, second_competition_test, fourth_competition_test):
+    """Tests if a user can book with a negative number of places."""
     email = first_club_test['email']
     places_required = -3
     assert places_required <= 0
@@ -35,13 +37,18 @@ def test_places_must_be_positive(app, first_club_test, second_competition_test, 
         f"Points available: {first_club_test['points']}",
         'You have to pick a positive number of places.',
         email=email,
-        data=dict(places=str(places_required), club=first_club_test['name'], competition=second_competition_test['name']),
+        data=dict(
+            places=str(places_required), club=first_club_test['name'], competition=second_competition_test['name']
+        ),
         club=first_club_test,
         competitions=[fourth_competition_test, second_competition_test]
     )
 
 
-def test_places_must_be_less_than_available_points(app, second_club_test, second_competition_test, fourth_competition_test):
+def test_places_must_be_less_than_available_points(
+        app, second_club_test, second_competition_test, fourth_competition_test
+):
+    """Tests if a club can book with a number greater than their number of places available."""
     email = second_club_test['email']
     places_required = 6
     assert places_required
@@ -58,13 +65,16 @@ def test_places_must_be_less_than_available_points(app, second_club_test, second
         f"Points available: {second_club_test['points']}",
         "You cannot book more places than you have points available for your club.",
         email=email,
-        data=dict(places=str(places_required), club=second_club_test['name'], competition=second_competition_test['name']),
+        data=dict(
+            places=str(places_required), club=second_club_test['name'], competition=second_competition_test['name']
+        ),
         club=second_club_test,
         competitions=[fourth_competition_test, second_competition_test]
     )
 
 
 def test_booking_no_more_than_twelve_places(app, second_club_test, second_competition_test, fourth_competition_test):
+    """Tests if a club can book with a number greater than 12."""
     email = second_club_test['email']
     places_required = 13
     assert places_required
@@ -81,13 +91,18 @@ def test_booking_no_more_than_twelve_places(app, second_club_test, second_compet
         f"Points available: {second_club_test['points']}",
         "You cannot book more than 12 places per competition.",
         email=email,
-        data=dict(places=str(places_required), club=second_club_test['name'], competition=second_competition_test['name']),
+        data=dict(
+            places=str(places_required), club=second_club_test['name'], competition=second_competition_test['name']
+        ),
         club=second_club_test,
         competitions=[fourth_competition_test, second_competition_test]
     )
 
 
-def test_booking_no_more_than_places_available_in_competition(app, first_club_test, second_competition_test, fourth_competition_test):
+def test_booking_no_more_than_places_available_in_competition(
+        app, first_club_test, second_competition_test, fourth_competition_test
+):
+    """Tests if a club can book with a number greater than the number of places available in the competition."""
     email = first_club_test['email']
     places_required = 12
     assert places_required
@@ -106,13 +121,16 @@ def test_booking_no_more_than_places_available_in_competition(app, first_club_te
         f"Points available: {first_club_test['points']}",
         "There are not enough places for this competition.",
         email=email,
-        data=dict(places=str(places_required), club=first_club_test['name'], competition=fourth_competition_test['name']),
+        data=dict(
+            places=str(places_required), club=first_club_test['name'], competition=fourth_competition_test['name']
+        ),
         club=first_club_test,
         competitions=[fourth_competition_test, second_competition_test]
     )
 
 
 def test_booking_with_enough_points(app, second_club_test, second_competition_test, fourth_competition_test):
+    """Tests if a club can book in valid conditions."""
     email = second_club_test['email']
     places_required = 2
 
@@ -126,7 +144,8 @@ def test_booking_with_enough_points(app, second_club_test, second_competition_te
     modified_second_club_test["points"] = int(second_club_test['points']) - places_required
 
     modified_fourth_competition_test = fourth_competition_test
-    modified_fourth_competition_test["number_of_places"] = int(fourth_competition_test['number_of_places']) - places_required
+    fourth_competition_test_places = fourth_competition_test['number_of_places']
+    modified_fourth_competition_test["number_of_places"] = int(fourth_competition_test_places) - places_required
 
     assert_template(
         app,
@@ -138,7 +157,9 @@ def test_booking_with_enough_points(app, second_club_test, second_competition_te
         f"Points available: {modified_second_club_test['points']}",
         "Great - booking complete!",
         email=email,
-        data=dict(places=str(places_required), club=second_club_test['name'], competition=fourth_competition_test['name']),
+        data=dict(
+            places=str(places_required), club=second_club_test['name'], competition=fourth_competition_test['name']
+        ),
         club=modified_second_club_test,
         competitions=[modified_fourth_competition_test, second_competition_test]
     )

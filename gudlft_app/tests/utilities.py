@@ -19,7 +19,11 @@ def captured_templates(app):
 
 
 def assert_template(app, method, logged_in, url, template_name, status_code, *args, email="", data=None, **kwargs):
-    """Function validating a template."""
+    """Function validating a template.
+    Gets a response from a GET or POST method, and checks the template.
+    Data is used for validating the presence of some phrases in html
+    Kwargs are for the context.
+    """
     with captured_templates(app) as templates:
         with app.test_client() as client:
             if logged_in:

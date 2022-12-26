@@ -10,24 +10,30 @@ URL = "http://127.0.0.1:5000"
 
 
 def create_driver():
+    """Creates a Chrome driver."""
     option = webdriver.ChromeOptions()
     option.add_argument("--headless")
     return webdriver.Chrome(options=option)
 
 
 class UserPath(LiveServerTestCase):
+    """Class testing a user path on the web app."""
     multiprocessing.set_start_method("fork")
 
     def create_app(self):
+        """Create_app method necessary when inheriting from LiveServerTestCase."""
         return create_app({"TESTING": True})
 
     def setUp(self) -> None:
+        """Method run before every other method of this class."""
         self.driver = create_driver()
 
     def tearDown(self) -> None:
+        """Method run after every other method of this class."""
         self.driver.close()
 
     def test_user_logs_in_book_and_check_points(self):
+        """Tests if a club can log in, book enough places for a competition, check the display board, and log out."""
         email = "test1@gmail.com"
         self.driver.get(URL)
         assert "Welcome to the GUDLFT Registration Portal" in self.driver.page_source

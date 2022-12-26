@@ -33,7 +33,7 @@ class ProjectPerfTest(HttpUser):
 
     @task()
     def display_board(self):
-        response = self.client.get("/display-board")
+        self.client.get("/display-board")
 
     @task()
     def logout(self):

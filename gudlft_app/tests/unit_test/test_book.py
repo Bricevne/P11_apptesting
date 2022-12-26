@@ -3,7 +3,10 @@ from flask import request, url_for
 from gudlft_app.tests.utilities import assert_template
 
 
-def test_cannot_access_booking_if_not_logged_in(app, first_club_test, second_competition_test):
+def test_cannot_access_booking_if_not_logged_in(
+        app, first_club_test, second_competition_test
+):
+    """Tests if a user can access the booking page without being logged in."""
     assert_template(
         app,
         "GET",
@@ -14,7 +17,10 @@ def test_cannot_access_booking_if_not_logged_in(app, first_club_test, second_com
     )
 
 
-def test_cannot_access_booking_of_other_clubs(app, first_club_test, second_club_test, second_competition_test, fourth_competition_test):
+def test_cannot_access_booking_of_other_clubs(
+        app, first_club_test, second_club_test, second_competition_test, fourth_competition_test
+):
+    """Tests if a user can access the booking page of another club."""
     email = first_club_test["email"]
     assert_template(
         app,
@@ -30,7 +36,10 @@ def test_cannot_access_booking_of_other_clubs(app, first_club_test, second_club_
     )
 
 
-def test_cannot_access_booking_with_wrong_competition_name(app, first_club_test, second_competition_test, fourth_competition_test):
+def test_cannot_access_booking_with_wrong_competition_name(
+        app, first_club_test, second_competition_test, fourth_competition_test
+):
+    """Tests if a user can access a booking page if the competition name in the url is wrong."""
     email = first_club_test["email"]
     assert_template(
         app,
@@ -47,6 +56,7 @@ def test_cannot_access_booking_with_wrong_competition_name(app, first_club_test,
 
 
 def test_access_booking(app, first_club_test, second_competition_test, fourth_competition_test):
+    """Tests if a user can access the booking page with all conditions right."""
     email = first_club_test["email"]
     assert_template(
         app,
